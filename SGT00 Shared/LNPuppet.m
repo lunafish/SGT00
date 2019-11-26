@@ -209,6 +209,7 @@
     if(_endAnim > 0.f) {
         _endAnim -= _delta;
         if(_endAnim <= 0.f) {
+            [self stop:_puppet key:PUPPETATTACK];
             [self play:_puppet key:PUPPETIDLE];
         }
     }
@@ -227,6 +228,13 @@
     // add root ani
     //[self addRootAnim:rcs key:ROOTANI00]; // add ROOTANI00 (short knockback)
 
+    // add idle animation and play
+    player = [self addPuppetAnim:rcs key:PUPPETIDLE];
+    if(player) {
+        player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
+            NSLog(@"idle event");
+        }]];
+    }
     
     // add attack animation
     player = [self addPuppetAnim:rcs key:PUPPETATTACK];
@@ -254,13 +262,7 @@
                                  }]];
     }
     
-    // add idle animation and play
-    player = [self addPuppetAnim:rcs key:PUPPETIDLE];
-    if(player) {
-        player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
-            NSLog(@"idle event");
-        }]];
-    }
+
     [self play:_puppet key:PUPPETIDLE];
 }
 
@@ -301,11 +303,11 @@
 - (SCNAnimationPlayer*)addPuppetAnim:(SCNNode*)rcs key:(NSString*)key
 {
     // 1. clone animation
-    SCNNode* ani = [[rcs childNodeWithName:key recursively:YES] clone];
+    SCNNode* ani = [rcs childNodeWithName:key recursively:YES];
     if(ani == nil)
         return nil;
     // 2. get animation player
-    SCNAnimationPlayer* player = [self loadAnim:ani];
+    SCNAnimationPlayer* player = [[self loadAnim:ani] copy];
     if(player == nil)
         return nil;
     // 3. don't remove after playing
@@ -323,6 +325,17 @@
         return NO;
     // play animation
     [player play];
+    return YES;
+}
+
+- (bool)stop:(SCNNode*)node key:(NSString*)key
+{
+    // get animation player
+    SCNAnimationPlayer* player = [node animationPlayerForKey:key];
+    if(player == nil) // check player
+        return NO;
+    // play animation
+    [player stopWithBlendOutDuration:0.1];
     return YES;
 }
 
