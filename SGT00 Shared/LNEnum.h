@@ -13,6 +13,7 @@
 #define CollisionMeshBitMask 8
 
 // root animation string
+static NSString* const ROOTANI = @"RootAni"; // root ani node
 static NSString* const ROOTANIBONE = @"RootAniBone"; // root animation bone
 static NSString* const ROOTANI00 = @"rootAni00"; // short knockback root animation
 static NSString* const PUPPET = @"puppet"; // Puppet mesh

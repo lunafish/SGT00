@@ -46,8 +46,13 @@ static LNPuppetMng* _instance = nil;
     
     // for test
     _player = [self makePuppet:NodeTypePlayer rcs:node animrcs:animnode]; // player
-    //[self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
-    //[self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
+    
+    // for test make monster
+    LNPuppet* mon = nil;
+    mon = [self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
+    mon.name = @"mon001";
+    mon = [self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
+    mon.name = @"mon002";
     //[self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
     //
     

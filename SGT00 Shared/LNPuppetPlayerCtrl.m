@@ -35,7 +35,7 @@
     self.puppetNode.delegate = self; // update delegate
     self.puppetNode.inputDelegate = self; // input delegate
     
-    _fireDelay = 5.0f;
+    _fireDelay = 0.5f;
     _fireDelta = 0.f;
     
     // test

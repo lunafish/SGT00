@@ -23,11 +23,14 @@
     
     bool _playRootAni; // root animation playing state : YES is playing root animation
     SCNNode* _puppet; // puppet node;
-    simd_float3 _rootPos; // root animation move postion
+    
+    NSString* _currentAnimKey;
+    SCNNode* _currentAnimNode; // puppet node;
 
     // root animation
+    SCNNode* _rootAniNode; // puppet node;
     SCNNode* _rootAniBone; // root animation bone
-    
+
     // for test
     bool _debugStop;
     float _endAnim;
@@ -53,6 +56,9 @@
     
     // test
     _endAnim = 0.f;
+    
+    _currentAnimKey = nil;
+    _currentAnimNode = nil;
 
     return self;
 }
@@ -72,7 +78,10 @@
     // get puppet node
     _puppet = [_mesh childNodeWithName:PUPPET recursively:YES];
     // get root Ani node
-    _rootAniBone = [_mesh childNodeWithName:PUPPETBONE recursively:YES];
+    _rootAniNode = [_mesh childNodeWithName:ROOTANI recursively:YES];
+    // get root Ani bone
+    _rootAniBone = [_mesh childNodeWithName:ROOTANIBONE recursively:YES];
+
     // add child node
     [self addChildNode:_mesh];
     
@@ -209,7 +218,6 @@
     if(_endAnim > 0.f) {
         _endAnim -= _delta;
         if(_endAnim <= 0.f) {
-            [self stop:_puppet key:PUPPETATTACK];
             [self play:_puppet key:PUPPETIDLE];
         }
     }
@@ -226,7 +234,7 @@
     SCNAnimationPlayer* player = nil;
     
     // add root ani
-    //[self addRootAnim:rcs key:ROOTANI00]; // add ROOTANI00 (short knockback)
+    [self addRootAnim:rcs key:ROOTANI00]; // add ROOTANI00 (short knockback)
 
     // add idle animation and play
     player = [self addPuppetAnim:rcs key:PUPPETIDLE];
@@ -245,58 +253,32 @@
             NSLog(@"attack event");
         }]];
     }
-    
-    // add short Knockback
-    player = [self addPuppetAnim:rcs key:PUPPETSHORTKB];
-    if(player) {
-        player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward)
-                                 {
-                                     NSLog(@"AnimStart");
-                                     self->_playRootAni = true; // root animation start
-                                 }], [SCNAnimationEvent animationEventWithKeyTime:1 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward)
-                                 {
-                                     NSLog(@"AnimEnd");
-                                     // root animation end
-                                     self->_playRootAni = false;
-                                     self->_endAnim = 0.1f;
-                                 }]];
-    }
-    
-
     [self play:_puppet key:PUPPETIDLE];
 }
 
 - (bool)addRootAnim:(SCNNode*)rcs key:(NSString*)key
 {
     // 1. clone root animation from node
-    SCNNode* rootani = [[rcs childNodeWithName:key recursively:YES] clone];
+    SCNNode* rootani = [rcs childNodeWithName:key recursively:YES];
     // 2. get animation plyaer
-    SCNAnimationPlayer* player = [self loadAnim:rootani];
+    SCNAnimationPlayer* player = [[self loadAnim:rootani] copy];
     // 3. get animation for callback function
     SCNAnimation* ani = player.animation;
     ani.repeatCount = 0; // no repeat
     // 4. add start, end event
-    ani.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward)
-                             {
-                                 NSLog(@"AnimStart");
-                                 self->_playRootAni = true; // root animation start
-                             }], [SCNAnimationEvent animationEventWithKeyTime:1 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward)
-                             {
-                                 NSLog(@"AnimEnd");
-                                 // root animation end
-                                 self->_playRootAni = false;
-                                 self->_endAnim = true;
-                                 /*
-                                 // move puppet position to final position
-                                 self.simdWorldPosition = self.rootPos;
-                                 // init mesh position
-                                 self.puppet.simdPosition = simd_make_float3(0.f, 0.f, 0.f);
-                                 */
-                             }]];
+    ani.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
+        LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
+        NSLog(@"AnimStart : %@ %@", self.name, puppet.name);
+        puppet.rootAnimState = true;
+    }], [SCNAnimationEvent animationEventWithKeyTime:1 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
+            LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
+            NSLog(@"AnimEnd : %@ %@", self.name, puppet.name);
+            puppet.rootAnimState = false;
+    }]];
     // 5. set don't remove after playing
     ani.removedOnCompletion = NO;
     // 6. add player
-    [_puppet addAnimationPlayer:player forKey:key];
+    [_rootAniNode addAnimationPlayer:player forKey:key];
     return YES;
 }
 
@@ -319,10 +301,18 @@
 
 - (bool)play:(SCNNode*)node key:(NSString*)key
 {
+    if(_currentAnimKey != nil && _currentAnimNode != nil) {
+        [self stop:_currentAnimNode key:_currentAnimKey];
+    }
+    
     // get animation player
     SCNAnimationPlayer* player = [node animationPlayerForKey:key];
     if(player == nil) // check player
         return NO;
+    
+    _currentAnimKey = key;
+    _currentAnimNode = node;
+    
     // play animation
     [player play];
     return YES;
@@ -344,6 +334,19 @@
     return [self play:_puppet key:key];
 }
 
+- (void)startRootAnim {
+    _playRootAni = true; // root animation start
+}
+
+- (void)endRootAni {
+    if(_playRootAni == false)
+        return;
+
+    self.simdWorldPosition = _rootPos;
+    _puppet.simdPosition = simd_make_float3(0, 0, 0);
+    _playRootAni = false;
+    _endAnim = 0.1f;
+}
 
 - (bool)knockback
 {
@@ -354,9 +357,11 @@
         return NO;
 
     // play animation
-    if([self play:_puppet key:PUPPETSHORTKB] == NO)
+    if([self play:_rootAniNode key:ROOTANI00] == NO) {
         return NO;
-    _playRootAni = YES; // set flag for starting state
+    }
+    _rootAnimState = false;
+    //_playRootAni = YES; // set flag for starting state
     
     //_debugStop = YES;
     
@@ -379,6 +384,15 @@
 
 - (bool)updateRootAni
 {
+    if(_rootAnimState)
+    {
+        [self startRootAnim];
+    }
+    else
+    {
+        [self endRootAni];
+    }
+    
     if(!_playRootAni)
         return NO;
     
@@ -390,8 +404,8 @@
         // 3. save current postion
         _rootPos = _rootAniBone.presentationNode.simdWorldPosition;
         // 4. only move puppet mesh
-        //_puppet.simdWorldPosition = _rootPos;
-        
+        _puppet.simdWorldPosition = _rootPos;
+ 
         //NSLog(@"%f %f %f", _rootPos.x, _rootPos.y, _rootPos.z);
         return YES;
     }

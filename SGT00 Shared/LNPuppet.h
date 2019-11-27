@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<LNNodeInputDelegate> inputDelegate;
 @property (assign, nonatomic) bool checkGround;
 @property (assign, nonatomic) float speed;
+@property (assign, nonatomic) bool rootAnimState;
+@property (assign, nonatomic) simd_float3 rootPos; // root animation move postion
+
 
 - (void)reset;
 - (bool)add:(SCNNode*)rcs animrcs:(SCNNode*)animrcs;
@@ -31,6 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (bool)isCrash;
 - (void)reserve;
 - (bool)playAnim:(NSString*)key;
+
+- (void)startRootAnim;
+- (void)endRootAnim;
 
 @end
 
