@@ -17,9 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) bool checkGround;
 @property (assign, nonatomic) float speed;
 
-@property (assign, nonatomic) bool rootAnimState; // root animation state for animation event
-@property (assign, nonatomic) simd_float3 rootPos; // root animation move postion
-
 // init for reuse
 - (void)reset;
 

@@ -31,6 +31,7 @@
     bool _playRootAni; // root animation playing state : YES is playing root animation
     SCNNode* _rootAniNode; // puppet node;
     SCNNode* _rootAniBone; // root animation bone
+    simd_float3 _rootPos; // root aimation move position;
 
     // for test
     bool _debugStop;
@@ -264,7 +265,7 @@
     player = [self addPuppetAnim:rcs key:PUPPETIDLE];
     if(player) {
         player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
-            //NSLog(@"idle event");
+            NSLog(@"idle event");
         }]];
     }
     
@@ -274,7 +275,7 @@
     {
         // add attack event point
         player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
-            //NSLog(@"attack event");
+            NSLog(@"attack event");
         }]];
     }
     [self play:_puppet key:PUPPETIDLE];
@@ -293,11 +294,11 @@
     ani.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
         LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
         NSLog(@"AnimStart : %@ %@", self.name, puppet.name);
-        puppet.rootAnimState = true;
+        [puppet startRootAnim];
     }], [SCNAnimationEvent animationEventWithKeyTime:1 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
             LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
             NSLog(@"AnimEnd : %@ %@", self.name, puppet.name);
-            puppet.rootAnimState = false;
+            [puppet endRootAnim];
     }]];
     // 5. set don't remove after playing
     ani.removedOnCompletion = NO;
@@ -368,7 +369,7 @@
     _playRootAni = true; // root animation start
 }
 
-- (void)endRootAni {
+- (void)endRootAnim {
     if(_playRootAni == false)
         return;
 
@@ -390,7 +391,6 @@
     if([self play:_rootAniNode key:ROOTANI00] == NO) {
         return NO;
     }
-    _rootAnimState = false;
     
     //_debugStop = YES;
     
@@ -413,15 +413,6 @@
 
 - (bool)updateRootAni
 {
-    if(_rootAnimState)
-    {
-        [self startRootAnim];
-    }
-    else
-    {
-        [self endRootAni];
-    }
-    
     if(!_playRootAni)
         return NO;
     
