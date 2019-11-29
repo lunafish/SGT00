@@ -20,20 +20,20 @@
     SCNNode* _mesh; // mesh node;
     float _deltaCrash; // hold time for crash
     bool _initFootPos; // init foot position
-    
-    bool _playRootAni; // root animation playing state : YES is playing root animation
     SCNNode* _puppet; // puppet node;
-    
-    NSString* _currentAnimKey;
-    SCNNode* _currentAnimNode; // puppet node;
+
+    // animation
+    float _endAnim; // change idel anmation delay
+    NSString* _currentAnimKey; // animation key
+    SCNNode* _currentAnimNode; // animation node;
 
     // root animation
+    bool _playRootAni; // root animation playing state : YES is playing root animation
     SCNNode* _rootAniNode; // puppet node;
     SCNNode* _rootAniBone; // root animation bone
 
     // for test
     bool _debugStop;
-    float _endAnim;
 }
 
 @end
@@ -64,6 +64,8 @@
 }
 
 - (void)reset {
+    _initFootPos = false;
+    _playRootAni = false;
     _deltaCrash = 0.0f;
 }
 
@@ -77,6 +79,7 @@
     _mesh = [rcs clone];
     // get puppet node
     _puppet = [_mesh childNodeWithName:PUPPET recursively:YES];
+    
     // get root Ani node
     _rootAniNode = [_mesh childNodeWithName:ROOTANI recursively:YES];
     // get root Ani bone
@@ -86,8 +89,9 @@
     [self addChildNode:_mesh];
     
     // add anims
-    if(animrcs)
+    if(animrcs) {
         [self addAnim:animrcs];
+    }
 
     _debugStop = NO;
     return YES;
@@ -97,6 +101,15 @@
 {
     // return controllers node type
     return [self.controller nodeType];
+}
+
+
+- (void)initFootPosition
+{
+    if(_initFootPos == false && _checkGround == true) {
+        NSLog(@"initFootPosition");
+        _initFootPos = [self stand];
+    }
 }
 
 - (bool)doMove:(simd_float3*)pos
@@ -201,29 +214,40 @@
 
 - (void)update:(NSTimeInterval)time
 {
+    // make tick : second
+    _delta = time - _lastTime;
+    _lastTime = time;
+
     // init foot pos
     [self initFootPosition];
     
     // update root ani
     [self updateRootAni];
     
-    // make tick : second
-    _delta = time - _lastTime;
-    _lastTime = time;
+    // update crash
+    [self updateCrash];
     
+    // update animation
+    [self updateAnimation];
+
+    // // delegate update to contorller
+    [_delegate update:time delta:_delta];
+}
+
+- (void)updateCrash {
     if(_deltaCrash > 0.f) {
         _deltaCrash -= _delta;
     }
-    
+}
+
+- (void)updateAnimation {
+    // change animation to Idle
     if(_endAnim > 0.f) {
         _endAnim -= _delta;
         if(_endAnim <= 0.f) {
             [self play:_puppet key:PUPPETIDLE];
         }
     }
-
-    // // delegate update to contorller
-    [_delegate update:time delta:_delta];
 }
 
 // animation
@@ -240,7 +264,7 @@
     player = [self addPuppetAnim:rcs key:PUPPETIDLE];
     if(player) {
         player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
-            NSLog(@"idle event");
+            //NSLog(@"idle event");
         }]];
     }
     
@@ -250,7 +274,7 @@
     {
         // add attack event point
         player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
-            NSLog(@"attack event");
+            //NSLog(@"attack event");
         }]];
     }
     [self play:_puppet key:PUPPETIDLE];
@@ -303,12 +327,19 @@
 {
     if(_currentAnimKey != nil && _currentAnimNode != nil) {
         [self stop:_currentAnimNode key:_currentAnimKey];
+        _playRootAni = false;
     }
     
     // get animation player
     SCNAnimationPlayer* player = [node animationPlayerForKey:key];
     if(player == nil) // check player
         return NO;
+    
+    // set animation dulation
+    if(player.animation.repeatCount != INFINITY)
+        _endAnim = player.animation.duration + 0.1f;
+    else
+        _endAnim = 0.f;
     
     _currentAnimKey = key;
     _currentAnimNode = node;
@@ -330,7 +361,6 @@
 }
 
 - (bool)playAnim:(NSString*)key {
-    _endAnim = 1.f;
     return [self play:_puppet key:key];
 }
 
@@ -361,7 +391,6 @@
         return NO;
     }
     _rootAnimState = false;
-    //_playRootAni = YES; // set flag for starting state
     
     //_debugStop = YES;
     
@@ -449,14 +478,6 @@
     }
     self.simdPosition = pos;
     return YES;
-}
-
-- (void)initFootPosition
-{
-    if(_initFootPos == false && _checkGround == true) {
-        NSLog(@"initFootPosition");
-        _initFootPos = [self stand];
-    }
 }
 
 - (bool)isCrash { 
