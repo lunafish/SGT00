@@ -7,6 +7,8 @@
 //
 
 #import "LNCtrl.h"
+#import "LNPuppetMng.h"
+#import "LNPuppet.h"
 
 @implementation LNCtrl
 
@@ -41,6 +43,22 @@
 - (void)damaged:(LNPuppet*)puppet
 {
     
+}
+
+- (bool)checkFriend {
+    if(LNPuppetMng.instance.player.controller.teamType == _teamType)
+        return YES;
+    
+    return NO;
+}
+
+// data delegate
+- (float)HP {
+    return 0;
+}
+
+- (float)MP {
+    return 0;
 }
 
 @end

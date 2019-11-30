@@ -62,12 +62,6 @@
             if(_delta > _delay) {
                 return BTTaskSuccess;
             }
-            /*
-            if(f < 5.f) {
-                [puppet crashed:_puppetNode];
-                [_puppetNode knockback];
-            }
-            */
             return BTTaskProcess;
         }
         else {

@@ -10,6 +10,10 @@
 #import "LNHud.h"
 #import <SpriteKit/SpriteKit.h>
 #import "GameController.h"
+// puppet
+#import "LNPuppetMng.h";
+#import "LNPuppet.h"
+#import "LNCtrl.h"
 
 #define DRAW_LINE 0
 
@@ -17,6 +21,7 @@
 {
     SKNode* _down; // down icon
     SKNode* _move; // move icon
+    SKLabelNode* _state; // state label
     SKShapeNode* _line; // line
     CGMutablePathRef _linePath; // line path
 }
@@ -33,8 +38,9 @@
     
     // load ui
     _uiScene = [SKScene nodeWithFileNamed:@"GameHud.sks"];
-    _down = [_uiScene childNodeWithName:@"SKBtnDown"]; // down button
-    _move = [_uiScene childNodeWithName:@"SKBtnMove"]; // move button
+    _down = [_uiScene childNodeWithName:BUTTONDOWN]; // down button
+    _move = [_uiScene childNodeWithName:BUTTONMOVE]; // move button
+    _state = (SKLabelNode*)[_uiScene childNodeWithName:LABELSTATE]; // state label
     
     _down.hidden = YES;
     _move.hidden = YES;
@@ -107,6 +113,13 @@
 - (void)releaseNodesAtPoint:(CGPoint)point
 {
     [self clearCursor:point];
+}
+
+- (void)update:(NSTimeInterval)time delta:(float)delta {
+    _state.text = [NSString stringWithFormat:@"HP : %0.0f MP : %0.0f",
+                   [LNPuppetMng.instance.player.controller HP],
+                   [LNPuppetMng.instance.player.controller MP]];
+    
 }
 
 @end

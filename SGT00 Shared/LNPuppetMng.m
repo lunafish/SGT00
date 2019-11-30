@@ -13,10 +13,10 @@
 #import "LNBulletCtrl.h"
 #import "LNCubeMng.h"
 #import "LNUtil.h"
+#import "LNCtrl.h"
 
 @interface LNPuppetMng()
 {
-    LNPuppet* _player; // player puppet for fast search
     SCNNode* _rcsBullet; // Bullet resource
 }
 

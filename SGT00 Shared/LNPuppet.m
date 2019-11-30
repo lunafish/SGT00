@@ -342,6 +342,7 @@
     else
         _endAnim = 0.f;
     
+    // set current animation node and key
     _currentAnimKey = key;
     _currentAnimNode = node;
     
@@ -356,7 +357,7 @@
     SCNAnimationPlayer* player = [node animationPlayerForKey:key];
     if(player == nil) // check player
         return NO;
-    // play animation
+    // set stop with blend
     [player stopWithBlendOutDuration:0.1];
     return YES;
 }
@@ -373,8 +374,8 @@
     if(_playRootAni == false)
         return;
 
-    self.simdWorldPosition = _rootPos;
-    _puppet.simdPosition = simd_make_float3(0, 0, 0);
+    self.simdWorldPosition = _rootPos; // set final root animation position
+    _puppet.simdPosition = simd_make_float3(0, 0, 0); // set mesh position
     _playRootAni = false;
     _endAnim = 0.1f;
 }

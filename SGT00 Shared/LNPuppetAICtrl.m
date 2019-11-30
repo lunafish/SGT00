@@ -79,7 +79,7 @@
     _btctrl.root = [[LNBTTaskSequence alloc] init];
     // 3. node set
     [_btctrl.root add:[[LNBTTaskFind alloc] init]];
-    //[_btctrl.root add:[[LNBTTaskChase alloc] init]];
+    [_btctrl.root add:[[LNBTTaskChase alloc] init]];
 
 }
 

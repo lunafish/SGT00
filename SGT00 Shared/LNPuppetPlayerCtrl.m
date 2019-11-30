@@ -19,6 +19,10 @@
     
     float _fireDelta;
     float _fireDelay;
+    
+    // data
+    float _hp;
+    float _mp;
 }
 
 @end
@@ -43,6 +47,9 @@
     // get foot postion
     [self.puppetNode warp:self.puppetNode.simdPosition];
     //
+    
+    _hp = 100;
+    _mp = 100;
     
     return self;
 }
@@ -98,6 +105,21 @@
         // 4. look move direction
         [self.puppetNode lookdir:v];
     }
+}
+
+- (void)damaged:(LNPuppet *)puppet {
+    _hp -= 1;
+    if(_hp < 0) {
+        _hp = 0;
+    }
+}
+
+- (float)HP {
+    return _hp;
+}
+
+- (float)MP {
+    return _mp;
 }
 
 @end

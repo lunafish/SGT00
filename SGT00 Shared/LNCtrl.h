@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LNNode;
 @class LNPuppet;
-@interface LNCtrl : NSObject<LNNodeDelegate, LNNodeInputDelegate>
+@interface LNCtrl : NSObject<LNNodeDelegate, LNNodeInputDelegate, LNDdataDelegate>
 
 @property (strong, nonatomic) LNNode* viewNode;
 @property (strong, nonatomic) LNPuppet* puppetNode;
@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)init:(LNNode*)viewNode;
 - (void)initCtrl;
+- (bool)checkFriend;
 
 @end
 

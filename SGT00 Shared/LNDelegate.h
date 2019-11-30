@@ -40,4 +40,11 @@
 - (void)releaseNodesAtPoint:(CGPoint)point; // release input
 @end
 
+@protocol LNDdataDelegate
+@required
+- (float)HP;
+- (float)MP;
+@optional
+@end
+
 #endif /* LNDelegate_h */

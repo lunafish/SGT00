@@ -12,7 +12,7 @@
 #define HIT_RANGE 8
 #define CollisionMeshBitMask 8
 
-// root animation string
+// animation string
 static NSString* const ROOTANI = @"RootAni"; // root ani node
 static NSString* const ROOTANIBONE = @"RootAniBone"; // root animation bone
 static NSString* const ROOTANI00 = @"rootAni00"; // short knockback root animation
@@ -21,6 +21,11 @@ static NSString* const PUPPETIDLE = @"puppetIdle"; // Puppet Idle Animation
 static NSString* const PUPPETATTACK = @"puppetAttack"; // Puppet Attack Animation
 static NSString* const PUPPETSHORTKB = @"puppetShortKnockback"; // Short Knockback
 static NSString* const PUPPETBONE = @"Bone"; // root animation bone
+
+// HUD string
+static NSString* const BUTTONDOWN = @"SKBtnDown";
+static NSString* const BUTTONMOVE = @"SKBtnMove";
+static NSString* const LABELSTATE = @"SKLabelState";
 
 // Direction
 typedef NS_ENUM(NSInteger, Dir)
