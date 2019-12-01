@@ -10,11 +10,13 @@
 #import "LNCtrl.h"
 #import "LNPuppet.h"
 #import "LNUtil.h"
+#import "LNBlackboard.h"
 
 @interface LNBTTaskChase()
 {
     float _delta;
     float _delay;
+    LNPuppet* _puppet; // target
 }
 
 @end
@@ -42,11 +44,21 @@
     
     _delta = 0.f;
     
+    _puppet = ctrl.blackBoard.tagetPuppet;
+    
+    if(_puppet == nil)
+        return BTTaskFailed;
+    
     return BTTaskProcess;
 }
 
 - (BTTaskType)process:(LNCtrl*)ctrl delta:(float)delta {
     [self log];
+    
+    float f = [LNUtil SCNVecLen:_puppet.worldPosition v2:ctrl.puppetNode.worldPosition];
+    
+    if(f < 5.f && [ctrl checkFriend])
+        return BTTaskSuccess;
     
     _delta += delta;
     if(_delta < _delay) {

@@ -75,6 +75,7 @@ typedef NS_ENUM(NSInteger, NodeType)
     NodeTypeEnemy,
     NodeTypeFriend,
     NodeTypeNPC,
+    NodeTypeBot,
     NodeTypeBullet,
 };
 

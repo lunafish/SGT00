@@ -53,7 +53,7 @@
     
     // find near puppet
     LNPuppet* puppet = nil;
-    if([ctrl nodeType] == NodeTypeFriend) {
+    if([ctrl nodeType] == NodeTypeBot) {
         puppet = LNPuppetMng.instance.player;
     } else {
         puppet = [LNPuppetMng.instance GetNearPuppet:ctrl.puppetNode isEnemy:YES];

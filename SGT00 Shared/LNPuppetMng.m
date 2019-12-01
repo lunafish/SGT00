@@ -58,10 +58,11 @@ static LNPuppetMng* _instance = nil;
     // monster
     LNPuppet* mon = nil;
     mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
-    //mon.name = @"mon001";
-    //mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
-    //mon.name = @"mon002";
-    //mon = [self make:NodeTypeFriend rcs:node animrcs:animnode]; // ai
+    mon.name = @"mon001";
+    mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
+    mon.name = @"mon002";
+    mon = [self make:NodeTypeBot rcs:node animrcs:animnode]; // ai
+    mon.speed = _player.speed * 0.75f;
     //
 }
 
@@ -94,6 +95,11 @@ static LNPuppetMng* _instance = nil;
         [puppet.controller setTeamType:TeamRed];
         [puppet.controller setNodeType:NodeTypeNPC];
     }
+    else if(type == NodeTypeBot) {
+        puppet.controller = [[LNPuppetAICtrl alloc] init:puppet];
+        [puppet.controller setTeamType:TeamRed];
+        [puppet.controller setNodeType:NodeTypeBot];
+    }
     else if(type == NodeTypeBullet) {
         puppet.controller = [[LNBulletCtrl alloc] init:puppet];
         [puppet.controller setTeamType:TeamBlue];
@@ -123,7 +129,7 @@ static LNPuppetMng* _instance = nil;
             continue;
         
         // check bullet
-        if(_lstPuppet[i].controller.nodeType == NodeTypeBullet)
+        if(_lstPuppet[i].controller.nodeType == NodeTypeBullet || _lstPuppet[i].controller.nodeType == NodeTypeBot)
             continue;
         
         // check myself
