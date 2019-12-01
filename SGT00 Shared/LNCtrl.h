@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) LNNode* viewNode;
 @property (strong, nonatomic) LNPuppet* puppetNode;
-@property (assign, nonatomic) TeamType teamType;
 
 - (id)init:(LNNode*)viewNode;
 - (void)initCtrl;

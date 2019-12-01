@@ -11,7 +11,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import "GameController.h"
 // puppet
-#import "LNPuppetMng.h";
+#import "LNPuppetMng.h"
 #import "LNPuppet.h"
 #import "LNCtrl.h"
 

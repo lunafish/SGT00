@@ -13,6 +13,8 @@
 
 @class LNCtrl;
 @class LNPuppet;
+@class LNBlackboard;
+
 @protocol LNBTDelegate
 @required
 - (bool)add:(id)node; // add task node
@@ -28,6 +30,8 @@
 - (NodeType)nodeType;
 - (TeamType)teamType;
 @optional
+- (void)setNodeType:(NodeType)type;
+- (void)setTeamType:(TeamType)type;
 - (void)update:(NSTimeInterval)time delta:(float)delta; // update tick
 - (void)crashed:(LNPuppet*)puppet;
 - (void)damaged:(LNPuppet*)puppet;
@@ -44,6 +48,7 @@
 @required
 - (float)HP;
 - (float)MP;
+- (LNBlackboard*)blackBoard;
 @optional
 @end
 

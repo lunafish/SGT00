@@ -54,12 +54,12 @@
 
 - (void)addDelegate
 {
-     [GameController.instance.delegates addObject:self];
+    [GameController.instance.delegates addObject:self];
 }
 
 - (void)removeDelegate
 {
-     [GameController.instance.delegates removeObject:self];
+    [GameController.instance.delegates removeObject:self];
 }
 
 - (void)addInpuDelegate
@@ -71,6 +71,4 @@
 {
     [GameController.instance.delegateInputs removeObject:self];
 }
-
-
 @end

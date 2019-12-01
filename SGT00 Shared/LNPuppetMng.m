@@ -35,33 +35,37 @@ static LNPuppetMng* _instance = nil;
     
     _instance = self;
     
-    // load tile scn
+    // make puppet list
+    _lstPuppet = [[NSMutableArray alloc] init];
+    [self addDelegate];
+    
+    // spawn
+    [self spawnPuppet];
+    
+    return self;
+}
+
+- (void)spawnPuppet {
+    // load puppet resouce
     SCNScene *scene = [SCNScene sceneNamed:@"Art.scnassets/Puppet.scn"];
     SCNNode *node = [scene.rootNode childNodeWithName:@"puppetBox" recursively:YES ];
     _rcsBullet = [scene.rootNode childNodeWithName:@"bullet" recursively:YES ];
     SCNNode *animnode = [scene.rootNode childNodeWithName:@"animation" recursively:YES ];
 
-    // make puppet list
-    _lstPuppet = [[NSMutableArray alloc] init];
+    // player
+    _player = [self make:NodeTypePlayer rcs:node animrcs:animnode]; // player
     
-    // for test
-    _player = [self makePuppet:NodeTypePlayer rcs:node animrcs:animnode]; // player
-    
-    // for test make monster
+    // monster
     LNPuppet* mon = nil;
-    mon = [self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
-    mon.name = @"mon001";
-    mon = [self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
-    mon.name = @"mon002";
-    //[self makePuppet:NodeTypeAI rcs:node animrcs:animnode]; // ai
+    mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
+    //mon.name = @"mon001";
+    //mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
+    //mon.name = @"mon002";
+    //mon = [self make:NodeTypeFriend rcs:node animrcs:animnode]; // ai
     //
-    
-    [self addDelegate];
-    
-    return self;
 }
 
-- (LNPuppet*)makePuppet:(NodeType)type rcs:(SCNNode*)rcs animrcs:(SCNNode*)animrcs
+- (LNPuppet*)make:(NodeType)type rcs:(SCNNode*)rcs animrcs:(SCNNode*)animrcs
 {
     LNPuppet* puppet = [[LNPuppet alloc] init];
     // 1. add delegate
@@ -72,15 +76,28 @@ static LNPuppetMng* _instance = nil;
     // 2. make ai controller by nodetype
     if(type == NodeTypePlayer) {
         puppet.controller = [[LNPuppetPlayerCtrl alloc] init:puppet];
-        puppet.controller.teamType = TeamRed;
+        [puppet.controller setTeamType:TeamRed];
+        [puppet.controller setNodeType:NodeTypePlayer];
     }
-    else if(type == NodeTypeAI) {
+    else if(type == NodeTypeEnemy) {
         puppet.controller = [[LNPuppetAICtrl alloc] init:puppet];
-        puppet.controller.teamType = TeamBlue;
+        [puppet.controller setTeamType:TeamBlue];
+        [puppet.controller setNodeType:NodeTypeEnemy];
+    }
+    else if(type == NodeTypeFriend) {
+        puppet.controller = [[LNPuppetAICtrl alloc] init:puppet];
+        [puppet.controller setTeamType:TeamRed];
+        [puppet.controller setNodeType:NodeTypeFriend];
+    }
+    else if(type == NodeTypeEnemy) {
+        puppet.controller = [[LNPuppetAICtrl alloc] init:puppet];
+        [puppet.controller setTeamType:TeamRed];
+        [puppet.controller setNodeType:NodeTypeNPC];
     }
     else if(type == NodeTypeBullet) {
         puppet.controller = [[LNBulletCtrl alloc] init:puppet];
-        puppet.controller.teamType = TeamRed;
+        [puppet.controller setTeamType:TeamBlue];
+        [puppet.controller setNodeType:NodeTypeBullet];
     }
     
     // 3. add puppet list
@@ -152,7 +169,7 @@ static LNPuppetMng* _instance = nil;
     
     // 2. No Bullet Find
     if(!bullet) {
-        bullet = [self makePuppet:NodeTypeBullet rcs:_rcsBullet animrcs:nil];
+        bullet = [self make:NodeTypeBullet rcs:_rcsBullet animrcs:nil];
     }
     
     // 3. set bullet info

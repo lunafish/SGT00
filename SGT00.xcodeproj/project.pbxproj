@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4108A0EA2393A52C00E8E6D9 /* LNBlackboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */; };
+		4108A0EB2393A52C00E8E6D9 /* LNBlackboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */; };
 		414C442121EA2C5100C2D84A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 414C442021EA2C5100C2D84A /* AppDelegate.m */; };
 		414C442421EA2C5100C2D84A /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414C442321EA2C5100C2D84A /* GameViewController.m */; };
 		414C442721EA2C5100C2D84A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414C442521EA2C5100C2D84A /* Main.storyboard */; };
@@ -65,6 +67,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4108A0E82393A52C00E8E6D9 /* LNBlackboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNBlackboard.h; sourceTree = "<group>"; };
+		4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNBlackboard.m; sourceTree = "<group>"; };
 		4108DFCF21EB201A00439473 /* LNEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNEnum.h; sourceTree = "<group>"; };
 		414C441421EA2C5000C2D84A /* GameController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
 		414C441521EA2C5000C2D84A /* GameController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
@@ -268,6 +272,8 @@
 				419177A32386A3E800F2DD1B /* LNBTTaskChase.m */,
 				419177A62389908300F2DD1B /* LNBTTaskFind.h */,
 				419177A72389908300F2DD1B /* LNBTTaskFind.m */,
+				4108A0E82393A52C00E8E6D9 /* LNBlackboard.h */,
+				4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */,
 			);
 			name = Behaviortree;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				419177A82389908300F2DD1B /* LNBTTaskFind.m in Sources */,
 				417C4003223E8171002A7FA6 /* LNPuppet.m in Sources */,
 				414C449221EA4AE600C2D84A /* LNCubeCtrl.m in Sources */,
+				4108A0EA2393A52C00E8E6D9 /* LNBlackboard.m in Sources */,
 				41C0D44D222D55A5006C7F6C /* LNUIMng.m in Sources */,
 				414C448621EA4A3F00C2D84A /* LNCubeMng.m in Sources */,
 				414C448E21EA4ABE00C2D84A /* LNCtrl.m in Sources */,
@@ -446,6 +453,7 @@
 				419177A92389908300F2DD1B /* LNBTTaskFind.m in Sources */,
 				417C4004223E8171002A7FA6 /* LNPuppet.m in Sources */,
 				414C449321EA4AE600C2D84A /* LNCubeCtrl.m in Sources */,
+				4108A0EB2393A52C00E8E6D9 /* LNBlackboard.m in Sources */,
 				414C443921EA2C5100C2D84A /* GameViewController.m in Sources */,
 				414C444121EA2C5100C2D84A /* GameController.m in Sources */,
 				414C448721EA4A3F00C2D84A /* LNCubeMng.m in Sources */,

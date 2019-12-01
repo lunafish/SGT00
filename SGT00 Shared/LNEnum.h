@@ -72,7 +72,9 @@ typedef NS_ENUM(NSInteger, NodeType)
     NodeTypeNone = 0,
     NodeTypeCube,
     NodeTypePlayer,
-    NodeTypeAI,
+    NodeTypeEnemy,
+    NodeTypeFriend,
+    NodeTypeNPC,
     NodeTypeBullet,
 };
 

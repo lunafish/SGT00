@@ -11,6 +11,7 @@
 #import "LNPuppetMng.h"
 #import "LNUtil.h"
 #import "LNCtrl.h"
+#import "LNBlackboard.h"
 
 @interface LNBTTaskFind()
 {
@@ -51,12 +52,24 @@
     [self log];
     
     // find near puppet
-    LNPuppet* puppet = [LNPuppetMng.instance GetNearPuppet:ctrl.puppetNode isEnemy:YES];
+    LNPuppet* puppet = nil;
+    if([ctrl nodeType] == NodeTypeFriend) {
+        puppet = LNPuppetMng.instance.player;
+    } else {
+        puppet = [LNPuppetMng.instance GetNearPuppet:ctrl.puppetNode isEnemy:YES];
+    }
+    
+    // set target puppet to blackboard
+    LNBlackboard* blackboard = ctrl.blackBoard;
+    if(blackboard != nil) {
+        blackboard.tagetPuppet = puppet;
+    }
+    
     if(puppet != nil)
     {
         float f = [LNUtil SCNVecLen:puppet.worldPosition v2:ctrl.puppetNode.worldPosition]; // get length from target
         
-        if(f < 12.0f) {
+        if(f < 12.0f || ctrl.nodeType == NodeTypeFriend) {
             [ctrl.puppetNode look:puppet.simdPosition]; // lookat target
             _delta += delta;
             if(_delta > _delay) {
@@ -69,7 +82,7 @@
         }
     }
 
-    return BTTaskSuccess;
+    return BTTaskFailed;
 }
 
 - (void)log {

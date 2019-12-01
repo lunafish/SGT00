@@ -16,11 +16,13 @@
 #import "LNBTTaskChase.h"
 #import "LNBTTaskSequence.h"
 #import "LNBTTaskFind.h"
+#import "LNBlackboard.h"
 //
 
 @interface LNPuppetAICtrl()
 {
     LNBTCtrl* _btctrl;
+    LNBlackboard* _blackboard;
     bool _btloof;
 }
 
@@ -48,11 +50,6 @@
     return self;
 }
 
-- (NodeType)nodeType
-{
-    return NodeTypeAI;
-}
-
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
     if([self.puppetNode isCrash] == YES) {
@@ -71,6 +68,10 @@
     }
 }
 
+- (LNBlackboard*)blackBoard {
+    return _blackboard;
+}
+
 - (void)initBT {
     _btloof = true;
     // 1. make bt ctrl
@@ -80,6 +81,8 @@
     // 3. node set
     [_btctrl.root add:[[LNBTTaskFind alloc] init]];
     [_btctrl.root add:[[LNBTTaskChase alloc] init]];
+    // 4. make blackboard
+    _blackboard = [[LNBlackboard alloc] init];
 
 }
 
