@@ -49,6 +49,13 @@
     if(_puppet == nil)
         return BTTaskFailed;
     
+    // Bot only chase player
+    if(ctrl.nodeType == NodeTypeBot) {
+        if(_puppet.nodeType != NodeTypePlayer) {
+            return BTTaskFailed;
+        }
+    }
+    
     return BTTaskProcess;
 }
 

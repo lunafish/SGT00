@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4106B4BE23949E4200D73F0A /* LNBTTaskAttack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4106B4BD23949E4200D73F0A /* LNBTTaskAttack.m */; };
+		4106B4BF23949E4200D73F0A /* LNBTTaskAttack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4106B4BD23949E4200D73F0A /* LNBTTaskAttack.m */; };
 		4108A0EA2393A52C00E8E6D9 /* LNBlackboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */; };
 		4108A0EB2393A52C00E8E6D9 /* LNBlackboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */; };
 		414C442121EA2C5100C2D84A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 414C442021EA2C5100C2D84A /* AppDelegate.m */; };
@@ -67,6 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4106B4BC23949E4200D73F0A /* LNBTTaskAttack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNBTTaskAttack.h; sourceTree = "<group>"; };
+		4106B4BD23949E4200D73F0A /* LNBTTaskAttack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNBTTaskAttack.m; sourceTree = "<group>"; };
 		4108A0E82393A52C00E8E6D9 /* LNBlackboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNBlackboard.h; sourceTree = "<group>"; };
 		4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNBlackboard.m; sourceTree = "<group>"; };
 		4108DFCF21EB201A00439473 /* LNEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNEnum.h; sourceTree = "<group>"; };
@@ -272,6 +276,8 @@
 				419177A32386A3E800F2DD1B /* LNBTTaskChase.m */,
 				419177A62389908300F2DD1B /* LNBTTaskFind.h */,
 				419177A72389908300F2DD1B /* LNBTTaskFind.m */,
+				4106B4BC23949E4200D73F0A /* LNBTTaskAttack.h */,
+				4106B4BD23949E4200D73F0A /* LNBTTaskAttack.m */,
 				4108A0E82393A52C00E8E6D9 /* LNBlackboard.h */,
 				4108A0E92393A52C00E8E6D9 /* LNBlackboard.m */,
 			);
@@ -431,6 +437,7 @@
 				414C446821EA486D00C2D84A /* LNNode.m in Sources */,
 				4153BAB8223549E500AF3DF2 /* LNPuppetMng.m in Sources */,
 				41BF674F22471C6D007E9242 /* LNPuppetPlayerCtrl.m in Sources */,
+				4106B4BE23949E4200D73F0A /* LNBTTaskAttack.m in Sources */,
 				41917798238694C900F2DD1B /* LNBTCtrl.m in Sources */,
 				419177A023869BF200F2DD1B /* LNBTTaskSequence.m in Sources */,
 				419177A42386A3E800F2DD1B /* LNBTTaskChase.m in Sources */,
@@ -461,6 +468,7 @@
 				414C448F21EA4ABE00C2D84A /* LNCtrl.m in Sources */,
 				4153BAB9223549E500AF3DF2 /* LNPuppetMng.m in Sources */,
 				41BF675022471C6D007E9242 /* LNPuppetPlayerCtrl.m in Sources */,
+				4106B4BF23949E4200D73F0A /* LNBTTaskAttack.m in Sources */,
 				41917799238694C900F2DD1B /* LNBTCtrl.m in Sources */,
 				419177A123869BF200F2DD1B /* LNBTTaskSequence.m in Sources */,
 				419177A52386A3E800F2DD1B /* LNBTTaskChase.m in Sources */,

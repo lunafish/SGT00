@@ -16,6 +16,7 @@
 #import "LNBTTaskChase.h"
 #import "LNBTTaskSequence.h"
 #import "LNBTTaskFind.h"
+#import "LNBTTaskAttack.h"
 #import "LNBlackboard.h"
 //
 
@@ -78,8 +79,9 @@
     _btctrl = [[LNBTCtrl alloc] init];
     // 2. sequence node set root
     _btctrl.root = [[LNBTTaskSequence alloc] init];
-    // 3. node set
+    // 3. node set : find -> attack -> chase
     [_btctrl.root add:[[LNBTTaskFind alloc] init]];
+    [_btctrl.root add:[[LNBTTaskAttack alloc] init]];
     [_btctrl.root add:[[LNBTTaskChase alloc] init]];
     // 4. make blackboard
     _blackboard = [[LNBlackboard alloc] init];

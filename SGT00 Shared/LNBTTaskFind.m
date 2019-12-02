@@ -52,11 +52,16 @@
     [self log];
     
     // find near puppet
-    LNPuppet* puppet = nil;
+    LNPuppet* puppet = [LNPuppetMng.instance GetNearPuppet:ctrl.puppetNode isEnemy:YES];
     if([ctrl nodeType] == NodeTypeBot) {
-        puppet = LNPuppetMng.instance.player;
-    } else {
-        puppet = [LNPuppetMng.instance GetNearPuppet:ctrl.puppetNode isEnemy:YES];
+        if(puppet == nil) {
+            puppet = LNPuppetMng.instance.player;
+        } else {
+            float f = [LNUtil SCNVecLen:LNPuppetMng.instance.player.worldPosition v2:ctrl.puppetNode.worldPosition];
+            if(f > 10.f) {
+                puppet = LNPuppetMng.instance.player;
+            }
+        }
     }
     
     // set target puppet to blackboard

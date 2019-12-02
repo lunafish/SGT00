@@ -57,13 +57,18 @@ static LNPuppetMng* _instance = nil;
     
     // monster
     LNPuppet* mon = nil;
+#if 1
     mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
     mon.name = @"mon001";
     mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
     mon.name = @"mon002";
+#endif
+    //
+    
+    // Bot
     mon = [self make:NodeTypeBot rcs:node animrcs:animnode]; // ai
     mon.speed = _player.speed * 0.75f;
-    //
+    mon.simdWorldPosition = _player.simdWorldPosition - _player.simdWorldFront * 5; // place behind player
 }
 
 - (LNPuppet*)make:(NodeType)type rcs:(SCNNode*)rcs animrcs:(SCNNode*)animrcs
@@ -121,7 +126,7 @@ static LNPuppetMng* _instance = nil;
 - (LNPuppet*)GetNearPuppet:(LNPuppet*)puppet isEnemy:(bool)isEnemy
 {
     LNPuppet* ret = nil;
-    float len = 10000.0f; // set maximum value
+    float len = INFINITY; // set maximum value
     for(int i = 0; i < _lstPuppet.count; i++)
     {
         // pass hidden puppet
