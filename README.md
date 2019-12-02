@@ -1,0 +1,3 @@
+# SGT00
+Space Girl Trouble 00
+하기 싫타..........
