@@ -99,6 +99,8 @@
 
 - (void)damaged:(LNPuppet*)puppet
 {
+    // look damage dir
+    [self.puppetNode look:puppet.simdWorldPosition];
     [self.puppetNode knockback];
 }
 
