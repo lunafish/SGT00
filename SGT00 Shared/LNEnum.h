@@ -100,4 +100,10 @@ typedef NS_ENUM(NSInteger, BTTaskType)
     BTTaskSuccess,
     BTTaskProcess,
 };
+
+typedef NS_ENUM(NSInteger, BulletType)
+{
+    BulletRange = 0,
+    BulletMelee
+};
 #endif /* LNEnum_h */

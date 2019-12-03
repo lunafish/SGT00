@@ -14,6 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 @class LNNode;
 @class LNPuppet;
 @interface LNCtrl : NSObject<LNNodeDelegate, LNNodeInputDelegate, LNDdataDelegate>
+{
+    LNPuppet* targetPuppet;
+    NSTimeInterval _currentTime;
+    
+    // for data
+    float _hp;
+    float _mp;
+    BulletType _bulletType;
+    float _bulletDamage;
+    //
+}
 
 @property (strong, nonatomic) LNNode* viewNode;
 @property (strong, nonatomic) LNPuppet* puppetNode;
@@ -22,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)initCtrl;
 - (bool)checkFriend;
 - (void)endAttack;
+- (void)fire:(LNPuppet*)owner;
 
 @end
 

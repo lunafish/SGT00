@@ -51,6 +51,9 @@
 - (float)MP;
 - (LNBlackboard*)blackBoard;
 @optional
+- (BulletType)bulletType;
+- (float)bulletDamage;
+- (void)setBulletInfo:(id<LNDdataDelegate>)info;
 @end
 
 @protocol LNUIDelegate

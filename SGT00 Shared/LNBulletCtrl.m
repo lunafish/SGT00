@@ -66,4 +66,24 @@
     [self.puppetNode reserve];
 }
 
+- (void)fire:(LNPuppet*)owner {
+    self.teamType = owner.controller.teamType;
+    float margin = 1.25f;
+    if(_bulletType == BulletMelee) {
+        self.puppetNode.speed = 20;
+        margin = 3;
+        _lifeDelay = 0.1f;
+    }
+    else if(_bulletType == BulletRange) {
+        self.puppetNode.speed = 20;
+        _lifeDelay = 3;
+    }
+    self.puppetNode.simdWorldTransform = owner.simdWorldTransform;
+    simd_float3 pos = self.puppetNode.simdPosition;
+    pos.x += self.puppetNode.simdWorldFront.x * margin;
+    pos.y += 0.5f;
+    pos.z += self.puppetNode.simdWorldFront.z * margin;
+    self.puppetNode.simdPosition = pos;
+}
+
 @end

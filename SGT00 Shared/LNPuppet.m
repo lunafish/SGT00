@@ -459,14 +459,7 @@
 
 - (void)fire:(LNPuppet*)owner time:(NSTimeInterval)time {
     _lastTime = time;
-
-    self.controller.teamType = owner.controller.teamType;
-    self.simdWorldTransform = owner.simdWorldTransform;
-    simd_float3 pos = self.simdPosition;
-    pos.x += self.simdWorldFront.x * 1.25f;
-    pos.y += 0.5f;
-    pos.z += self.simdWorldFront.z * 1.25f;
-    self.simdPosition = pos;
+    [self.controller fire:owner];
 }
 
 - (bool)stand {

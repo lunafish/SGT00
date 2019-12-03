@@ -25,8 +25,6 @@
     LNBTCtrl* _btctrl;
     LNBlackboard* _blackboard;
     bool _btloof;
-    LNPuppet* targetPuppet;
-    NSTimeInterval _currentTime;
 }
 
 @end
@@ -55,7 +53,8 @@
 
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
-    _currentTime = time;    
+    [super update:time delta:delta];
+    
     if([self.puppetNode isCrash] == YES) {
         return;
     }

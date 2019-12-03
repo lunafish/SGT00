@@ -66,9 +66,11 @@ static LNPuppetMng* _instance = nil;
     //
     
     // Bot
+#if 0
     mon = [self make:NodeTypeBot rcs:node animrcs:animnode]; // ai
     mon.speed = _player.speed * 0.75f;
     mon.simdWorldPosition = _player.simdWorldPosition - _player.simdWorldFront * 5; // place behind player
+#endif
 }
 
 - (LNPuppet*)make:(NodeType)type rcs:(SCNNode*)rcs animrcs:(SCNNode*)animrcs
@@ -185,6 +187,8 @@ static LNPuppetMng* _instance = nil;
     
     // 3. set bullet info
     if(bullet) {
+        // 4. make bullet info
+        [bullet.controller setBulletInfo:owner.controller];
         [bullet fire:owner time:time];
     }
     

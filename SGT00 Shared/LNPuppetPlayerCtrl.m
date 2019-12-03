@@ -19,10 +19,6 @@
     
     float _fireDelta;
     float _fireDelay;
-    
-    // data
-    float _hp;
-    float _mp;
 }
 
 @end
@@ -39,7 +35,7 @@
     self.puppetNode.delegate = self; // update delegate
     self.puppetNode.inputDelegate = self; // input delegate
     
-    _fireDelay = 0.5f;
+    _fireDelay = 1.f;
     _fireDelta = 0.f;
     
     // test
@@ -50,6 +46,8 @@
     
     _hp = 100;
     _mp = 100;
+    _bulletType = BulletMelee;
+    _bulletDamage = 0;
     
     return self;
 }
@@ -72,8 +70,9 @@
 
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
+    [super update:time delta:delta];
     [self move:time delta:delta];
-    //[self fire:time delta:delta];
+    [self fire:time delta:delta];
 }
 
 - (void)fire:(NSTimeInterval)time delta:(float)delta {

@@ -13,7 +13,7 @@
 @interface LNCtrl()
 {
     NodeType _nodeType;
-    TeamType _teamType;
+    TeamType _teamType;    
 }
 
 @end
@@ -29,8 +29,15 @@
     _teamType = TeamNone;
     _nodeType = NodeTypeNone;
     _puppetNode = (LNPuppet*)viewNode;
+    _bulletType = BulletRange;
+    _bulletDamage = 0;
     
     return self;
+}
+
+- (void)update:(NSTimeInterval)time delta:(float)delta
+{
+    _currentTime = time;
 }
 
 - (NodeType)nodeType {
@@ -39,10 +46,6 @@
 
 - (TeamType)teamType {
     return _teamType;
-}
-
-- (LNBlackboard*)blackBoard {
-    return nil;
 }
 
 - (void)setNodeType:(NodeType)type {
@@ -82,6 +85,10 @@
     
 }
 
+- (void)fire:(LNPuppet*)owner {
+    
+}
+
 // data delegate
 - (float)HP {
     return 0;
@@ -89,6 +96,23 @@
 
 - (float)MP {
     return 0;
+}
+
+- (LNBlackboard*)blackBoard {
+    return nil;
+}
+
+- (BulletType)bulletType {
+    return _bulletType;
+}
+
+- (float)bulletDamage {
+    return _bulletDamage;
+}
+
+- (void)setBulletInfo:(id<LNDdataDelegate>)info {
+    _bulletType = info.bulletType;
+    _bulletDamage = info.bulletDamage;
 }
 
 @end
