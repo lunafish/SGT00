@@ -71,17 +71,30 @@
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
     [super update:time delta:delta];
-    [self move:time delta:delta];
-    [self fire:time delta:delta];
+    if(![self AutoAttack:time delta:delta])
+        [self move:time delta:delta];
 }
 
-- (void)fire:(NSTimeInterval)time delta:(float)delta {
+- (bool)AutoAttack:(NSTimeInterval)time delta:(float)delta {
     _fireDelta += delta;
-    if(_fireDelta > _fireDelay) {
-        _fireDelta = 0.f;
-        [LNPuppetMng.instance MakeBullet:self.puppetNode time:time];
-        [self.puppetNode playAnim:PUPPETATTACK];
+    
+    LNPuppet* puppet = [LNPuppetMng.instance GetNearPuppet:self.puppetNode isEnemy:YES];
+    if(puppet != nil && puppet.controller.nodeType == NodeTypeEnemy) {
+        float f = [LNUtil SCNVecLen:self.puppetNode.worldPosition v2:puppet.worldPosition];
+        if(f < 5) {
+            if(_fireDelta > _fireDelay) {
+                _fireDelta = 0.f;
+                // 1. look
+                [self.puppetNode look:puppet.simdWorldPosition];
+                // 2. animation
+                [self.puppetNode playAnim:PUPPETATTACK];
+                // 3. make bullet
+                [LNPuppetMng.instance MakeBullet:self.puppetNode time:time];
+            }
+        }
     }
+    
+    return NO;
 }
 
 - (void)move:(NSTimeInterval)time delta:(float)delta {

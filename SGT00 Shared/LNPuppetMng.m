@@ -66,7 +66,7 @@ static LNPuppetMng* _instance = nil;
     //
     
     // Bot
-#if 0
+#if 1
     mon = [self make:NodeTypeBot rcs:node animrcs:animnode]; // ai
     mon.speed = _player.speed * 0.75f;
     mon.simdWorldPosition = _player.simdWorldPosition - _player.simdWorldFront * 5; // place behind player
