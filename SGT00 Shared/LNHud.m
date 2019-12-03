@@ -22,6 +22,7 @@
     SKNode* _down; // down icon
     SKNode* _move; // move icon
     SKLabelNode* _state; // state label
+    SKLabelNode* _log; // state label
     SKShapeNode* _line; // line
     CGMutablePathRef _linePath; // line path
 }
@@ -41,7 +42,8 @@
     _down = [_uiScene childNodeWithName:BUTTONDOWN]; // down button
     _move = [_uiScene childNodeWithName:BUTTONMOVE]; // move button
     _state = (SKLabelNode*)[_uiScene childNodeWithName:LABELSTATE]; // state label
-    
+    _log = (SKLabelNode*)[_uiScene childNodeWithName:LABELLog]; // state label
+
     _down.hidden = YES;
     _move.hidden = YES;
    
@@ -120,6 +122,10 @@
                    [LNPuppetMng.instance.player.controller HP],
                    [LNPuppetMng.instance.player.controller MP]];
     
+}
+
+- (void)log:(NSString *)msg {
+    _log.text = msg;
 }
 
 @end

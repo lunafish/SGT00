@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LNHud : LNNode
+@interface LNHud : LNNode<LNUIDelegate>
 
 @end
 

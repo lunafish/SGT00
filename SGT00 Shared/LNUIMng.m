@@ -12,7 +12,7 @@
 
 @interface LNUIMng()
 {
-    LNNode* _hud;
+    LNNode<LNUIDelegate>* _hud;
     
     float _lastTime;
     float _delta;
@@ -55,6 +55,10 @@ static LNUIMng* _instance = nil;
     _lastTime = time;
     
     [_hud update:time delta:_delta];
+}
+
+- (void)log:(NSString*)msg {
+    [_hud log:msg];
 }
 
 @end

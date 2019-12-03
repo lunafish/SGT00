@@ -74,7 +74,7 @@
     {
         float f = [LNUtil SCNVecLen:puppet.worldPosition v2:ctrl.puppetNode.worldPosition]; // get length from target
         
-        if(f < 12.0f || ctrl.nodeType == NodeTypeFriend) {
+        if(f < 12.0f || ctrl.nodeType == NodeTypeBot) {
             [ctrl.puppetNode look:puppet.simdPosition]; // lookat target
             _delta += delta;
             if(_delta > _delay) {

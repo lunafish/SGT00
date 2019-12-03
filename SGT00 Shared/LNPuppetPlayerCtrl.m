@@ -73,7 +73,7 @@
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
     [self move:time delta:delta];
-    [self fire:time delta:delta];
+    //[self fire:time delta:delta];
 }
 
 - (void)fire:(NSTimeInterval)time delta:(float)delta {

@@ -35,6 +35,7 @@
 - (void)update:(NSTimeInterval)time delta:(float)delta; // update tick
 - (void)crashed:(LNPuppet*)puppet;
 - (void)damaged:(LNPuppet*)puppet;
+- (void)attack:(LNPuppet*)puppet;
 @end
 
 @protocol LNNodeInputDelegate
@@ -50,6 +51,12 @@
 - (float)MP;
 - (LNBlackboard*)blackBoard;
 @optional
+@end
+
+@protocol LNUIDelegate
+@required
+@optional
+- (void)log:(NSString*)msg;
 @end
 
 #endif /* LNDelegate_h */

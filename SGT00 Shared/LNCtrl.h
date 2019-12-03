@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)init:(LNNode*)viewNode;
 - (void)initCtrl;
 - (bool)checkFriend;
+- (void)endAttack;
 
 @end
 

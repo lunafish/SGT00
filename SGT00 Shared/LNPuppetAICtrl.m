@@ -25,6 +25,8 @@
     LNBTCtrl* _btctrl;
     LNBlackboard* _blackboard;
     bool _btloof;
+    LNPuppet* targetPuppet;
+    NSTimeInterval _currentTime;
 }
 
 @end
@@ -53,6 +55,7 @@
 
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
+    _currentTime = time;    
     if([self.puppetNode isCrash] == YES) {
         return;
     }
@@ -97,6 +100,16 @@
 - (void)damaged:(LNPuppet*)puppet
 {
     [self.puppetNode knockback];
+}
+
+- (void)attack:(LNPuppet *)puppet {
+    targetPuppet = puppet;
+    [self.puppetNode look:targetPuppet.simdWorldPosition];
+    [self.puppetNode playAnim:PUPPETATTACK];
+}
+
+- (void)endAttack {
+    [LNPuppetMng.instance MakeBullet:self.puppetNode time:_currentTime];
 }
 
 @end

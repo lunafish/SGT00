@@ -74,6 +74,14 @@
     return NO;
 }
 
+- (void)attack:(LNPuppet *)puppet {
+    
+}
+
+- (void)endAttack {
+    
+}
+
 // data delegate
 - (float)HP {
     return 0;

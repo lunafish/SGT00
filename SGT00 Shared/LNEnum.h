@@ -26,6 +26,7 @@ static NSString* const PUPPETBONE = @"Bone"; // root animation bone
 static NSString* const BUTTONDOWN = @"SKBtnDown";
 static NSString* const BUTTONMOVE = @"SKBtnMove";
 static NSString* const LABELSTATE = @"SKLabelState";
+static NSString* const LABELLog = @"SKLabelLog";
 
 // Direction
 typedef NS_ENUM(NSInteger, Dir)

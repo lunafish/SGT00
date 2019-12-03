@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (bool)playAnim:(NSString*)key;
 - (void)startRootAnim;
 - (void)endRootAnim;
+- (void)endAttackAnim;
 
 @end
 

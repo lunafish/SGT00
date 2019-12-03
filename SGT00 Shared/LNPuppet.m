@@ -276,6 +276,8 @@
         // add attack event point
         player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
             NSLog(@"attack event");
+            LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
+            [puppet endAttackAnim];
         }]];
     }
     [self play:_puppet key:PUPPETIDLE];
@@ -378,6 +380,10 @@
     _puppet.simdPosition = simd_make_float3(0, 0, 0); // set mesh position
     _playRootAni = false;
     _endAnim = 0.1f;
+}
+
+- (void)endAttackAnim {
+    [self.controller endAttack];
 }
 
 - (bool)knockback
