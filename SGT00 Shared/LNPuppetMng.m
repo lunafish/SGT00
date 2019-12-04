@@ -113,13 +113,16 @@ static LNPuppetMng* _instance = nil;
         [puppet.controller setNodeType:NodeTypeBullet];
     }
     
-    // 3. add puppet list
+    // 3. init ctrl
+    [puppet.controller initCtrl];
+    
+    // 4. add puppet list
     [_lstPuppet addObject:puppet];
     
-    // 4. copy node resource
+    // 5. copy node resource
     [puppet add:rcs animrcs:animrcs];
     
-    // 5. add child node
+    // 6. add child node
     [self addChildNode:puppet];
     
     return puppet;

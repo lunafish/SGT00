@@ -53,15 +53,20 @@
     
     if(ctrl.nodeType == NodeTypeBot) {
         if(_puppet.controller.nodeType == NodeTypeEnemy) {
-            //[LNUIMng.instance log:[NSString stringWithFormat:@"Attack : %@", _puppet.name]];
-            //[LNPuppetMng.instance MakeBullet:self.puppetNode time:time];
-            //[ctrl.puppetNode look:_puppet.simdWorldPosition];
-            //[ctrl.puppetNode playAnim:PUPPETATTACK];
             [ctrl attack:_puppet];
-
             return BTTaskProcess;
         }
     }
+    else if(ctrl.nodeType == NodeTypeEnemy) {
+        if(_puppet.controller.nodeType == NodeTypePlayer) {
+            float f = [LNUtil SCNVecLen:ctrl.puppetNode.worldPosition v2:_puppet.worldPosition];
+            if(f < 5) {
+                [ctrl attack:_puppet];
+                return BTTaskProcess;
+            }
+        }
+    }
+        
     
     return BTTaskSuccess;
 }
@@ -71,7 +76,6 @@
     
     _delta += delta;
     if(_delta > _delay) {
-        //[LNPuppetMng.instance MakeBullet:ctrl.puppetNode time:[[NSDate date] timeIntervalSince1970]];
         return BTTaskSuccess;
     }
 

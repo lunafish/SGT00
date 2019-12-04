@@ -19,6 +19,7 @@
     
     float _fireDelta;
     float _fireDelay;
+    bool _isFire;
 }
 
 @end
@@ -37,6 +38,7 @@
     
     _fireDelay = 1.f;
     _fireDelta = 0.f;
+    _isFire = false;
     
     // test
     self.puppetNode.simdPosition = simd_make_float3(0.0f, 0.0f, 5.0f);
@@ -71,11 +73,11 @@
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
     [super update:time delta:delta];
-    if(![self AutoAttack:time delta:delta])
-        [self move:time delta:delta];
+    [self move:time delta:delta];
+    [self AutoAttack:time delta:delta];
 }
 
-- (bool)AutoAttack:(NSTimeInterval)time delta:(float)delta {
+- (void)AutoAttack:(NSTimeInterval)time delta:(float)delta {
     _fireDelta += delta;
     
     LNPuppet* puppet = [LNPuppetMng.instance GetNearPuppet:self.puppetNode isEnemy:YES];
@@ -84,6 +86,7 @@
         if(f < 5) {
             if(_fireDelta > _fireDelay) {
                 _fireDelta = 0.f;
+                _isFire = true;
                 // 1. look
                 [self.puppetNode look:puppet.simdWorldPosition];
                 // 2. animation
@@ -93,12 +96,10 @@
             }
         }
     }
-    
-    return NO;
 }
 
 - (void)move:(NSTimeInterval)time delta:(float)delta {
-    if(!_move) {
+    if(!_move || _isFire) {
         return;
     }
     
@@ -120,10 +121,17 @@
 }
 
 - (void)damaged:(LNPuppet *)puppet {
+    if(puppet.controller.nodeType != NodeTypeBullet) {
+        return;
+    }
     _hp -= 1;
     if(_hp < 0) {
         _hp = 0;
     }
+}
+
+- (void)endAttack {
+    _isFire = NO;
 }
 
 - (float)HP {

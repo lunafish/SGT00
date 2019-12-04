@@ -51,6 +51,17 @@
     return self;
 }
 
+- (void)initCtrl {
+    if(self.nodeType == NodeTypeEnemy) {
+        _bulletType = BulletMelee;
+        _bulletDamage = 0;
+    }
+    else if(self.nodeType == NodeTypeBot) {
+        _bulletType = BulletRange;
+        _bulletDamage = 0;
+    }
+}
+
 - (void)update:(NSTimeInterval)time delta:(float)delta
 {
     [super update:time delta:delta];

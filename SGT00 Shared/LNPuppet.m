@@ -276,8 +276,8 @@
         // add attack event point
         player.animation.animationEvents = @[[SCNAnimationEvent animationEventWithKeyTime:0.5 block:^(CAAnimation *animation, id animatedObject, BOOL playingBackward) {
             NSLog(@"attack event");
-            LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
-            [puppet endAttackAnim];
+            //LNPuppet* puppet = (LNPuppet*)((SCNNode*)animatedObject).parentNode.parentNode;
+            //[puppet endAttackAnim];
         }]];
     }
     [self play:_puppet key:PUPPETIDLE];
@@ -355,6 +355,11 @@
 
 - (bool)stop:(SCNNode*)node key:(NSString*)key
 {
+    // end event
+    if([_currentAnimKey isEqualToString:PUPPETATTACK]) {
+        [self endAttackAnim];
+    }
+    
     // get animation player
     SCNAnimationPlayer* player = [node animationPlayerForKey:key];
     if(player == nil) // check player
