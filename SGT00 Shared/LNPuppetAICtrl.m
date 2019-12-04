@@ -10,6 +10,7 @@
 #import "LNPuppet.h"
 #import "LNCubeMng.h"
 #import "LNPuppetMng.h"
+#import "LNUIMng.h"
 #import "LNUtil.h"
 // BT
 #import "LNBTCtrl.h"
@@ -55,6 +56,7 @@
     if(self.nodeType == NodeTypeEnemy) {
         _bulletType = BulletMelee;
         _bulletDamage = 0;
+        _hp = 100;
     }
     else if(self.nodeType == NodeTypeBot) {
         _bulletType = BulletRange;
@@ -112,6 +114,16 @@
     // look damage dir
     [self.puppetNode look:puppet.simdWorldPosition];
     [self.puppetNode knockback];
+    
+    // calc damage
+    _hp -= 10;
+    if(_hp < 0)
+    {
+        [self.puppetNode reserve];
+        _hp = 0;
+    }
+    
+    [LNUIMng.instance log:[NSString stringWithFormat:@"Damaged %@ : %f", self.puppetNode.name, _hp]];
 }
 
 - (void)attack:(LNPuppet *)puppet {
