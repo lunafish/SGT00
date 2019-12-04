@@ -17,6 +17,8 @@
 
 @interface LNPuppetMng()
 {
+    SCNNode* _rcsPuppet; // Puppet resource
+    SCNNode* _rcsPuppetAnim; // Puppet anim resource
     SCNNode* _rcsBullet; // Bullet resource
 }
 
@@ -48,26 +50,23 @@ static LNPuppetMng* _instance = nil;
 - (void)spawnPuppet {
     // load puppet resouce
     SCNScene *scene = [SCNScene sceneNamed:@"Art.scnassets/Puppet.scn"];
-    SCNNode *node = [scene.rootNode childNodeWithName:@"puppetBox" recursively:YES ];
+    _rcsPuppet = [scene.rootNode childNodeWithName:@"puppetBox" recursively:YES ];
     _rcsBullet = [scene.rootNode childNodeWithName:@"bullet" recursively:YES ];
-    SCNNode *animnode = [scene.rootNode childNodeWithName:@"animation" recursively:YES ];
+    _rcsPuppetAnim = [scene.rootNode childNodeWithName:@"animation" recursively:YES ];
 
     // player
-    _player = [self make:NodeTypePlayer rcs:node animrcs:animnode]; // player
+    _player = [self make:NodeTypePlayer rcs:_rcsPuppet animrcs:_rcsPuppetAnim]; // player
     
     // monster
-    LNPuppet* mon = nil;
 #if 1
-    mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
-    mon.name = @"mon001";
-    mon = [self make:NodeTypeEnemy rcs:node animrcs:animnode]; // ai
-    mon.name = @"mon002";
+    [self MakePuppet:NodeTypeEnemy name:@"mon01"];
+    [self MakePuppet:NodeTypeEnemy name:@"mon02"];
 #endif
     //
     
     // Bot
 #if 1
-    mon = [self make:NodeTypeBot rcs:node animrcs:animnode]; // ai
+    LNPuppet* mon = [self MakePuppet:NodeTypeBot name:@"bot"];
     mon.speed = _player.speed * 0.75f;
     mon.simdWorldPosition = _player.simdWorldPosition - _player.simdWorldFront * 5; // place behind player
 #endif
@@ -168,6 +167,36 @@ static LNPuppetMng* _instance = nil;
 
 }
 
+- (nonnull LNPuppet *)MakePuppet:(NodeType)type name:(NSString*)name {
+    // not make bullet
+    if(type == NodeTypeBullet) {
+        return nil;
+    }
+    LNPuppet* puppet = nil;
+    // 1. Find Reuse
+    for(int i = 0; i < _lstPuppet.count; i++) {
+        if(_lstPuppet[i].controller == nil)
+            continue;
+        
+        if(_lstPuppet[i].controller.nodeType == type && _lstPuppet[i].hidden == YES) {
+            puppet = _lstPuppet[i];
+            break;
+        }
+    }
+    
+    if(!puppet) {
+        puppet = [self make:type rcs:_rcsPuppet animrcs:_rcsPuppetAnim];
+    }
+    
+    if(puppet) {
+        puppet.name = name;
+        puppet.hidden = NO;
+        [puppet.controller initCtrl];
+    }
+    
+    return puppet;
+}
+
 - (LNPuppet *)MakeBullet:(nonnull LNPuppet *)owner time:(NSTimeInterval)time {
     LNPuppet* bullet = nil;
     // 1. Find Reserve Bullet
@@ -210,5 +239,4 @@ static LNPuppetMng* _instance = nil;
     }
     return nil;
 }
-
 @end

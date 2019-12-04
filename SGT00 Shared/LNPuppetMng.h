@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, readonly) LNPuppet* player; // player puppet for fast search
 
 - (LNPuppet*)GetNearPuppet:(LNPuppet*)puppet isEnemy:(bool)isEnemy; // get nearest puppet
+- (LNPuppet*)MakePuppet:(NodeType)type name:(NSString*)name;
 - (LNPuppet*)MakeBullet:(LNPuppet*)owner time:(NSTimeInterval)time;
 - (LNPuppet*)CheckCrash:(LNPuppet*)owner bound:(float)bound;
 
