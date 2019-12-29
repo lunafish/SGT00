@@ -59,6 +59,7 @@
 @protocol LNUIDelegate
 @required
 @optional
+- (void)sppech:(NSString*)msg x:(float)x y:(float)y;
 - (void)log:(NSString*)msg;
 @end
 

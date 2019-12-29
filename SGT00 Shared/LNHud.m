@@ -23,6 +23,8 @@
     SKNode* _move; // move icon
     SKLabelNode* _state; // state label
     SKLabelNode* _log; // state label
+    NSMutableDictionary* _strAttributes;
+    
     SKShapeNode* _line; // line
     CGMutablePathRef _linePath; // line path
 }
@@ -57,6 +59,21 @@
     [_uiScene addChild:_line];
 #endif
     
+    // outline font
+    _strAttributes = [NSMutableDictionary dictionary];
+
+    // Define the font and fill color
+    //@"Arial-Black"
+    //@"Helvetica Neue"
+    NSString* font = @"Arial-Black";
+    [_strAttributes setObject: [NSFont fontWithName:font size:32] forKey: NSFontAttributeName];
+    [_strAttributes setObject: [NSColor whiteColor] forKey: NSForegroundColorAttributeName];
+
+    // Supply a negative value for stroke width that is 2% of the font point size in thickness
+    [_strAttributes setObject: [NSNumber numberWithFloat: -3.0] forKey: NSStrokeWidthAttributeName];
+    [_strAttributes setObject: [NSColor blackColor] forKey: NSStrokeColorAttributeName];
+    //
+
     
     [self addInpuDelegate];
     
@@ -118,14 +135,25 @@
 }
 
 - (void)update:(NSTimeInterval)time delta:(float)delta {
-    _state.text = [NSString stringWithFormat:@"HP : %0.0f MP : %0.0f",
+    NSString* msg = [NSString stringWithFormat:@"HP : %0.0f MP : %0.0f",
                    [LNPuppetMng.instance.player.controller HP],
                    [LNPuppetMng.instance.player.controller MP]];
-    
+    _state.attributedText = [[NSAttributedString alloc] initWithString:msg attributes: _strAttributes];
 }
 
 - (void)log:(NSString *)msg {
     _log.text = msg;
+}
+
+- (void)sppech:(NSString*)msg x:(float)x y:(float)y {
+    CGSize size = self.uiScene.frame.size;
+    
+    CGPoint pos;
+    pos.x = x - (size.width * 0.5);
+    pos.y = y - (size.height * 0.5) + 50;
+    _log.position = pos;
+    
+    _log.attributedText = [[NSAttributedString alloc] initWithString:msg attributes: _strAttributes];
 }
 
 @end

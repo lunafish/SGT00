@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSInteger x;
 @property (nonatomic) NSInteger y;
 @property (nonatomic) CubeMesh type;
+@property (nonatomic) CubeTag tag;
+@property (nonatomic) CubeStat stat;
 
 @end
 

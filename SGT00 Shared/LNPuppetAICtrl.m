@@ -12,6 +12,7 @@
 #import "LNPuppetMng.h"
 #import "LNUIMng.h"
 #import "LNUtil.h"
+#import "GameController.h"
 // BT
 #import "LNBTCtrl.h"
 #import "LNBTTaskChase.h"
@@ -123,7 +124,8 @@
         _hp = 0;
     }
     
-    [LNUIMng.instance log:[NSString stringWithFormat:@"Damaged %@ : %f", self.puppetNode.name, _hp]];
+    SCNVector3 v = [GameController.instance.sceneRenderer projectPoint:self.puppetNode.worldPosition];
+    [LNUIMng.instance speech:[NSString stringWithFormat:@"%@ : %f", self.puppetNode.name, _hp] pos:v];
 }
 
 - (void)attack:(LNPuppet *)puppet {

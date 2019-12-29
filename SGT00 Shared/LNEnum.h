@@ -57,6 +57,7 @@ typedef NS_ENUM(NSInteger, CubeTag)
     CubeTagNone = 0,
     CubeTagSTART,
     CubeTagEND,
+    CubeTagSpawn,
     CubeTagMAX,
 };
 
@@ -65,6 +66,16 @@ typedef NS_ENUM(NSInteger, CubeMesh)
 {
     CubeMeshTile = 1,
     CubeMeshMax,
+};
+
+// Cube State
+typedef NS_ENUM(NSInteger, CubeStat)
+{
+    CubeStatNone = 0,
+    CubeStatGreen,
+    CubeStatYellow,
+    CubeStatRed,
+    CubeStatMax,
 };
 
 // LNNode Type

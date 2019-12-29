@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, readonly) SKScene* uiScene;
 
 - (void)update:(NSTimeInterval)time;
+- (void)speech:(NSString*)msg pos:(SCNVector3)pos;
 - (void)log:(NSString*)msg;
 
 @end

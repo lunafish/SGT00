@@ -61,4 +61,8 @@ static LNUIMng* _instance = nil;
     [_hud log:msg];
 }
 
+- (void)speech:(nonnull NSString *)msg pos:(SCNVector3)pos {
+    [_hud sppech:msg x:pos.x y:pos.y];
+}
+
 @end
